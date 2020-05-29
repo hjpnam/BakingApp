@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Ingredient {
     @SerializedName("quantity")
     @Expose
-    private int quantity;
+    private double quantity;
     @SerializedName("measure")
     @Expose
     private String measure;
@@ -21,7 +21,7 @@ public class Ingredient {
         this.ingredient = ingredient;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 

@@ -28,15 +28,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     @NonNull
     @Override
     public RecipeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.recipe_list_item, parent, false);
-        return new RecipeAdapterViewHolder(view);
+        return new RecipeAdapterViewHolder(RecipeListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecipeAdapterViewHolder holder, int position) {
         Recipe recipe = mRecipeList.get(position);
-        holder.bind(recipe);
+        holder.binding.tvRecipeName.setText(recipe.getName());
     }
 
     @Override
@@ -45,7 +43,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     }
 
     public void setRecipeList(List<Recipe> recipeList) {
-        mRecipeList = recipeList;
+        mRecipeList = new ArrayList<>(recipeList);
+        notifyDataSetChanged();
     }
 
     public interface RecipeAdapterOnClickHandler {
@@ -55,14 +54,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     class RecipeAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private RecipeListItemBinding binding;
 
-        public RecipeAdapterViewHolder(View itemView) {
-            super(itemView);
-            binding = DataBindingUtil.bind(itemView);
-        }
-
-        public void bind (Recipe item) {
-            binding.setRecipe(item);
-            binding.executePendingBindings();
+        public RecipeAdapterViewHolder(RecipeListItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         @Override
