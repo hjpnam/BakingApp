@@ -1,14 +1,14 @@
 package com.example.bakingapp.ui;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bakingapp.R;
 import com.example.bakingapp.databinding.RecipeListItemBinding;
 import com.example.bakingapp.shared.Recipe;
 
@@ -28,13 +28,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     @NonNull
     @Override
     public RecipeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RecipeAdapterViewHolder(RecipeListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        RecipeListItemBinding itemBinding = RecipeListItemBinding.inflate(inflater, parent, false);
+        return new RecipeAdapterViewHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(RecipeAdapterViewHolder holder, int position) {
         Recipe recipe = mRecipeList.get(position);
-        holder.binding.tvRecipeName.setText(recipe.getName());
+        holder.recipeNameView.setText(recipe.getName());
     }
 
     @Override
@@ -43,6 +46,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     }
 
     public void setRecipeList(List<Recipe> recipeList) {
+        if (recipeList == null) mRecipeList = null;
         mRecipeList = new ArrayList<>(recipeList);
         notifyDataSetChanged();
     }
@@ -52,11 +56,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     }
 
     class RecipeAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private RecipeListItemBinding binding;
+        TextView recipeNameView;
 
         public RecipeAdapterViewHolder(RecipeListItemBinding binding) {
             super(binding.getRoot());
-            this.binding = binding;
+            recipeNameView = binding.tvRecipeName;
+            binding.getRoot().setOnClickListener(this);
         }
 
         @Override

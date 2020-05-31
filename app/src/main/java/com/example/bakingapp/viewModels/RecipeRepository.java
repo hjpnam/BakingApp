@@ -37,7 +37,7 @@ public class RecipeRepository {
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                recipeLiveData.setValue(null);
+                t.printStackTrace();
             }
         });
 

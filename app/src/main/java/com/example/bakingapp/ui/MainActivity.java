@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -32,8 +33,9 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     private void buildRecyclerView() {
         RecyclerView recipeListRecyclerView = (RecyclerView) findViewById(R.id.rv_recipe_list);
         recipeListRecyclerView.setHasFixedSize(true);
-        recipeListRecyclerView.setLayoutManager(new GridLayoutManager(this, R.integer.recipe_list_columns));
+        recipeListRecyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.grid_col_count)));
         mRecipeAdapter = new RecipeAdapter(this);
+        recipeListRecyclerView.setAdapter(mRecipeAdapter);
     }
 
     private void initViewModel() {
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         });
     }
 
+    @Override
     public void onClick(Recipe recipe) {
         // TODO (2) implement onClick for recipe item
         Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
